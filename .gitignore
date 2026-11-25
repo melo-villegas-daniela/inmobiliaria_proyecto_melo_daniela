@@ -1,0 +1,113 @@
+# ==============================================================================
+# PROGRAMACIÓN 2 - .GITIGNORE MULTIPROYECTO (PYTHON + DJANGO)
+# Aplica en la raíz y en cualquier carpeta o subcarpeta anidada
+# ==============================================================================
+
+# --- Byte-compiled / cache / optimizados de Python ---
+**/__pycache__/
+**/*.py[cod]
+**/*$py.class
+**/*.pyo
+
+# --- Extensiones compiladas C / Cython ---
+**/*.so
+**/*.pyd
+**/*.dylib
+
+# --- Entornos virtuales y gestores de entornos ---
+**/.env
+**/.env.*
+!**/.env.example
+!**/.env.template
+**/venv/
+**/.venv/
+**/env/
+**/.env/
+**/ENV/
+**/env.bak/
+**/venv.bak/
+**/conda-meta/
+**/.conda/
+**/.python-version
+**/.pyenv/
+
+# --- Empaquetado, distribución y builds ---
+**/build/
+**/develop-eggs/
+**/dist/
+**/downloads/
+**/eggs/
+**/.eggs/
+**/lib/
+**/lib64/
+**/parts/
+**/sdist/
+**/var/
+**/wheels/
+**/share/python-wheels/
+**/*.egg-info/
+**/.installed.cfg
+**/*.egg
+**/MANIFEST
+
+# --- Django: archivos estáticos, media, logs y base de datos local ---
+**/staticfiles/
+**/static_root/
+**/media/
+**/media_root/
+**/*.sqlite3
+**/*.sqlite3-journal
+**/*.sqlite3-wal
+**/*.sqlite3-shm
+**/db.sqlite3*
+**/logs/
+**/*.log
+
+# --- Django: migraciones (descomenta si NO quieres ignorar migraciones) ---
+# **/migrations/
+# !**/migrations/__init__.py
+
+# --- Testing, cobertura y linters / formateadores ---
+**/.coverage
+**/.coverage.*
+**/coverage.xml
+**/*.cover
+**/*.py,cover
+**/.hypothesis/
+**/.pytest_cache/
+**/htmlcov/
+**/.tox/
+**/.nox/
+**/.mypy_cache/
+**/.dmypy.json
+**/dmypy.json
+**/.ruff_cache/
+**/.flake8
+**/.behave/
+
+# --- Jupyter Notebook / experimentos ---
+**/.ipynb_checkpoints/
+**/*.ipynb
+
+# --- IDEs y editores ---
+**/.vscode/*
+!**/.vscode/settings.json
+!**/.vscode/tasks.json
+!**/.vscode/launch.json
+!**/.vscode/extensions.json
+**/.idea/
+**/*.swp
+**/*.swo
+**/*~
+**/*.sublime-project
+**/*.sublime-workspace
+
+# --- Archivos del sistema operativo ---
+**/.DS_Store
+**/.DS_Store?
+**/._*
+**/.Spotlight-V100
+**/.Trashes
+**/ehthumbs.db
+**/Thumbs.db
+**/desktop.ini
