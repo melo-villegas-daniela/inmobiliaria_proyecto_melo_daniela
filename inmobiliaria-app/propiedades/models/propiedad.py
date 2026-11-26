@@ -48,4 +48,4 @@ class Propiedad(models.Model):
           return self.titulo
 
     def get_absolute_url(self):        
-        return reverse('propiedad:detail', args=[self.pk])
+        return reverse('propiedad_detail', args=[self.pk])
