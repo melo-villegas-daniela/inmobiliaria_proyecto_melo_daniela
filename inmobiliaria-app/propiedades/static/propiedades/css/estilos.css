@@ -1,0 +1,689 @@
+:root {
+  color-scheme: light dark;
+
+  --bg: #fbf7f2;
+  --surface: #ffffff;
+  --surface-alt: #fdf9f4;
+  --ink: #18121e;
+  --muted: #675b73;
+  --line: #eadfd4;
+
+  /* Paleta cálida armoniosa: Amatista + Terracota Coral + Ámbar Dorado */
+  --brand: #7e22ce;
+  --brand-soft: #f5ebff;
+  --link: #6b21a8;
+  --go: #d97706;
+  --go-soft: #fffbeb;
+  --accent: #e11d48;
+  --accent-soft: #fff1f2;
+  --on-accent: #ffffff;
+  --danger: #b91c1c;
+
+  --radius-sm: 12px;
+  --radius: 18px;
+  --radius-lg: 26px;
+  --shadow:
+    0 2px 6px rgb(24 18 30 / 5%),
+    0 14px 32px -8px rgb(126 34 206 / 10%),
+    0 0 0 1px rgb(255 255 255 / 80%) inset;
+  --shadow-hover:
+    0 8px 20px rgb(24 18 30 / 8%),
+    0 22px 44px -10px rgb(225 29 72 / 18%);
+  --ease: cubic-bezier(0.34, 1.36, 0.64, 1);
+  --ease-smooth: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #0e0914;
+    --surface: #171021;
+    --surface-alt: #1f162d;
+    --ink: #faf5ff;
+    --muted: #b3a4c4;
+    --line: #2d2040;
+
+    --brand: #c084fc;
+    --brand-soft: rgb(192 132 252 / 14%);
+    --link: #e9d5ff;
+    --go: #fbbf24;
+    --go-soft: rgb(251 191 36 / 12%);
+    --accent: #fb7185;
+    --accent-soft: rgb(251 113 133 / 14%);
+    --on-accent: #1f070e;
+    --danger: #f87171;
+
+    --shadow:
+      0 3px 8px rgb(0 0 0 / 50%),
+      0 16px 36px -8px rgb(0 0 0 / 65%),
+      0 0 0 1px rgb(255 255 255 / 5%) inset;
+    --shadow-hover:
+      0 10px 24px rgb(0 0 0 / 60%),
+      0 24px 48px -10px rgb(192 132 252 / 24%);
+  }
+}
+
+/* ---------- Base y formas dinámicas ---------- */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+body {
+  position: relative;
+  margin: 0 auto;
+  max-width: 1100px;
+  min-height: 100dvh;
+  padding: 0 1.4rem 5rem;
+  background-color: var(--bg);
+  background-image:
+    radial-gradient(ellipse 55% 40% at 12% 10%, color-mix(in srgb, var(--brand) 14%, transparent), transparent 70%),
+    radial-gradient(ellipse 50% 42% at 88% 16%, color-mix(in srgb, var(--accent) 13%, transparent), transparent 70%),
+    radial-gradient(ellipse 55% 45% at 75% 88%, color-mix(in srgb, var(--go) 14%, transparent), transparent 72%);
+  color: var(--ink);
+  font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  line-height: 1.65;
+  overflow-x: clip;
+  transition: background-color 0.4s var(--ease-smooth), color 0.4s var(--ease-smooth);
+}
+
+/* Banda superior multicolor con pulso luminoso */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0 0 auto 0;
+  height: 4px;
+  z-index: 40;
+  background: linear-gradient(90deg, var(--brand), var(--accent), var(--go), var(--brand));
+  background-size: 200% 100%;
+  box-shadow: 0 2px 16px color-mix(in srgb, var(--accent) 45%, transparent);
+  animation: franja 8s linear infinite;
+}
+
+/* Esculturas orgánicas flotantes en el fondo */
+body::after {
+  content: '';
+  position: fixed;
+  left: -110px;
+  top: 26%;
+  width: 320px;
+  height: 320px;
+  border-radius: 44% 56% 37% 63% / 58% 36% 64% 42%;
+  background: radial-gradient(
+    circle at 30% 30%,
+    color-mix(in srgb, var(--go) 18%, transparent),
+    color-mix(in srgb, var(--accent) 12%, transparent) 65%,
+    transparent
+  );
+  filter: blur(6px);
+  pointer-events: none;
+  z-index: -1;
+  animation: deriva 16s ease-in-out infinite alternate;
+}
+
+hr {
+  display: none;
+}
+
+a {
+  position: relative;
+  color: var(--link);
+  font-weight: 600;
+  text-decoration: none;
+  transition: color 0.22s var(--ease-smooth);
+}
+
+a:not(nav a):not([href$='/nueva/']):not([href$='/editar/']):not([href$='/eliminar/'])::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -2px;
+  width: 100%;
+  height: 2px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--accent), var(--go));
+  transform: scaleX(0);
+  transform-origin: right center;
+  transition: transform 0.28s var(--ease);
+}
+
+a:not(nav a):not([href$='/nueva/']):not([href$='/editar/']):not([href$='/eliminar/']):hover::after {
+  transform: scaleX(1);
+  transform-origin: left center;
+}
+
+/* ---------- Navegación flotante dinámica ---------- */
+nav {
+  position: sticky;
+  top: 14px;
+  z-index: 30;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.35rem 0.6rem;
+  margin: 0.85rem 0 2.4rem;
+  padding: 0.65rem 1.05rem;
+  color: var(--muted);
+  background: color-mix(in srgb, var(--surface) 80%, transparent);
+  backdrop-filter: blur(16px) saturate(150%);
+  border: 1px solid color-mix(in srgb, var(--brand) 22%, var(--line));
+  border-radius: 999px;
+  box-shadow: var(--shadow);
+}
+
+nav a {
+  color: var(--ink);
+  font-weight: 600;
+  font-size: 0.94rem;
+  padding: 0.38rem 0.8rem;
+  border-radius: 999px;
+  transition:
+    color 0.22s var(--ease-smooth),
+    background 0.22s var(--ease-smooth),
+    transform 0.28s var(--ease);
+}
+
+nav a:hover {
+  color: var(--brand);
+  background: var(--brand-soft);
+  transform: translateY(-2px) scale(1.03);
+}
+
+nav form {
+  margin: 0 0 0 auto;
+}
+
+nav button {
+  margin: 0;
+  padding: 0.36rem 0.95rem;
+  font-size: 0.88rem;
+  color: var(--ink);
+  background: var(--surface-alt);
+  border: 1px solid var(--line);
+  box-shadow: none;
+}
+
+nav button::before {
+  display: none;
+}
+
+nav button:hover {
+  color: var(--accent);
+  border-color: color-mix(in srgb, var(--accent) 55%, var(--line));
+  background: var(--accent-soft);
+  transform: translateY(-2px);
+}
+
+/* ---------- Títulos con energía editorial ---------- */
+h1 {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  margin: 0 0 1.35rem;
+  padding: 0.15rem 1.15rem;
+  font-size: clamp(1.75rem, 3.4vw, 2.4rem);
+  font-weight: 850;
+  line-height: 1.15;
+  letter-spacing: -0.03em;
+  background: linear-gradient(120deg, var(--ink) 45%, var(--brand) 78%, var(--accent));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+h1::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0.1em;
+  bottom: 0.1em;
+  width: 6px;
+  border-radius: 999px;
+  background: linear-gradient(180deg, var(--accent), var(--go), var(--brand));
+}
+
+h2 {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  margin: 2.3rem 0 0.9rem;
+  padding: 0.28rem 0.8rem;
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+  color: var(--go);
+  background: var(--go-soft);
+  border: 1px solid color-mix(in srgb, var(--go) 30%, transparent);
+  border-radius: 999px;
+}
+
+p {
+  margin: 0 0 0.95rem;
+}
+
+/* ---------- Mensajes (messages) ---------- */
+hr + ul {
+  margin: 0 0 1.65rem;
+  padding: 0;
+  list-style: none;
+}
+
+hr + ul li {
+  position: relative;
+  padding: 0.9rem 1.2rem 0.9rem 1.35rem;
+  border: 1px solid color-mix(in srgb, var(--go) 38%, var(--line));
+  border-left: 5px solid var(--go);
+  border-radius: var(--radius);
+  background: color-mix(in srgb, var(--go) 11%, var(--surface));
+  box-shadow: var(--shadow);
+  animation: reboteSuave 0.5s var(--ease) both;
+}
+
+/* ---------- Listados en tarjetas interactivas ---------- */
+body > ul:not(.errorlist) {
+  display: grid;
+  gap: 0.75rem;
+  margin: 0 0 1.85rem;
+  padding: 0;
+  list-style: none;
+}
+
+body > ul:not(.errorlist) li {
+  position: relative;
+  padding: 0.95rem 1.25rem;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-left: 5px solid var(--brand);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  transition:
+    transform 0.3s var(--ease),
+    box-shadow 0.3s var(--ease-smooth),
+    border-color 0.25s var(--ease-smooth),
+    background 0.25s var(--ease-smooth);
+}
+
+body > ul:not(.errorlist) li:nth-child(3n+2) {
+  border-left-color: var(--go);
+}
+
+body > ul:not(.errorlist) li:nth-child(3n+3) {
+  border-left-color: var(--accent);
+}
+
+body > ul:not(.errorlist) li:hover {
+  transform: translateX(6px) translateY(-2px);
+  box-shadow: var(--shadow-hover);
+  background: var(--surface-alt);
+}
+
+hr + ul:not(.errorlist) {
+  display: block;
+}
+
+hr + ul:not(.errorlist) li:hover {
+  transform: none;
+  border-left-color: var(--go);
+  background: color-mix(in srgb, var(--go) 13%, var(--surface));
+}
+
+/* ---------- Tablas con dinamismo ---------- */
+table {
+  width: 100%;
+  margin: 0 0 1.9rem;
+  border: 1px solid var(--line);
+  border-collapse: separate;
+  border-spacing: 0;
+  background: var(--surface);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+}
+
+th, td {
+  padding: 0.92rem 1.15rem;
+  border: 0;
+  border-bottom: 1px solid var(--line);
+  text-align: left;
+  vertical-align: middle;
+}
+
+th {
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink);
+  background: linear-gradient(
+    90deg,
+    color-mix(in srgb, var(--brand) 12%, var(--surface-alt)),
+    color-mix(in srgb, var(--accent) 9%, var(--surface-alt)),
+    color-mix(in srgb, var(--go) 9%, var(--surface-alt))
+  );
+}
+
+tbody tr:nth-child(even) td {
+  background: color-mix(in srgb, var(--surface-alt) 65%, transparent);
+}
+
+tr:last-child td {
+  border-bottom: 0;
+}
+
+tbody tr, tr + tr {
+  transition: background 0.24s var(--ease-smooth);
+}
+
+tr:has(td):hover td {
+  background: color-mix(in srgb, var(--brand) 7%, var(--brand-soft));
+}
+
+tr:has(td):hover td:first-child {
+  box-shadow: inset 5px 0 0 var(--accent);
+}
+
+/* ---------- Botones con efecto elástico y barrido luminoso ---------- */
+button,
+a[href$='/nueva/'],
+a[href$='/editar/'],
+a[href$='/eliminar/'] {
+  position: relative;
+  overflow: hidden;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  margin: 0 0.5rem 0.65rem 0;
+  padding: 0.62rem 1.35rem;
+  font: inherit;
+  font-size: 0.94rem;
+  font-weight: 700;
+  line-height: 1.25;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  cursor: pointer;
+  transition:
+    transform 0.3s var(--ease),
+    background 0.25s var(--ease-smooth),
+    color 0.25s var(--ease-smooth),
+    border-color 0.25s var(--ease-smooth),
+    box-shadow 0.3s var(--ease-smooth),
+    filter 0.25s var(--ease-smooth);
+}
+
+button::before,
+a[href$='/nueva/']::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  transform: translateX(-120%) skewX(-20deg);
+  background: linear-gradient(90deg, transparent, rgb(255 255 255 / 32%), transparent);
+  transition: transform 0.6s var(--ease-smooth);
+  pointer-events: none;
+}
+
+button:hover::before,
+a[href$='/nueva/']::hover::before {
+  transform: translateX(120%) skewX(-20deg);
+}
+
+button:hover,
+a[href$='/nueva/']:hover,
+a[href$='/editar/']:hover,
+a[href$='/eliminar/']:hover {
+  text-decoration: none;
+  transform: translateY(-3px) scale(1.02);
+}
+
+button:active,
+a[href$='/nueva/']:active,
+a[href$='/editar/']:active,
+a[href$='/eliminar/']:active {
+  transform: translateY(0) scale(0.97);
+}
+
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: 3px solid color-mix(in srgb, var(--brand) 50%, transparent);
+  outline-offset: 2px;
+}
+
+/* Acción principal: amatista -> coral */
+button {
+  color: #ffffff;
+  background: linear-gradient(135deg, var(--brand), var(--accent));
+  box-shadow: 0 7px 20px -5px color-mix(in srgb, var(--brand) 48%, transparent);
+}
+
+button:hover {
+  box-shadow: 0 12px 26px -5px color-mix(in srgb, var(--accent) 55%, transparent);
+  filter: brightness(1.05);
+}
+
+/* Crear o publicar: ámbar dorado -> coral */
+a[href$='/nueva/'] {
+  color: var(--on-accent);
+  background: linear-gradient(135deg, var(--accent), var(--go));
+  box-shadow: 0 7px 20px -5px color-mix(in srgb, var(--accent) 48%, transparent);
+}
+
+a[href$='/nueva/']:hover {
+  box-shadow: 0 12px 26px -5px color-mix(in srgb, var(--go) 55%, transparent);
+  filter: brightness(1.05);
+}
+
+/* Editar: contorno amatista */
+a[href$='/editar/'] {
+  color: var(--link);
+  background: var(--surface);
+  border-color: color-mix(in srgb, var(--brand) 45%, var(--line));
+}
+
+a[href$='/editar/']:hover {
+  color: var(--brand);
+  background: var(--brand-soft);
+  border-color: var(--brand);
+}
+
+/* Eliminar: rojo destructivo */
+a[href$='/eliminar/'] {
+  color: var(--danger);
+  background: var(--surface);
+  border-color: color-mix(in srgb, var(--danger) 42%, var(--line));
+}
+
+a[href$='/eliminar/']:hover {
+  color: #ffffff;
+  background: var(--danger);
+  border-color: var(--danger);
+  box-shadow: 0 8px 18px -5px color-mix(in srgb, var(--danger) 48%, transparent);
+}
+
+form:has(> a) button {
+  background: linear-gradient(135deg, var(--danger), #991b1b);
+  box-shadow: 0 7px 20px -5px color-mix(in srgb, var(--danger) 45%, transparent);
+}
+
+/* ---------- Formularios ---------- */
+form {
+  max-width: 600px;
+}
+
+form:not(nav form) {
+  padding: 1.55rem 1.65rem;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-top: 5px solid transparent;
+  border-image: linear-gradient(90deg, var(--brand), var(--accent), var(--go)) 1;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow);
+}
+
+nav form {
+  max-width: none;
+}
+
+form p {
+  margin: 0 0 1.15rem;
+}
+
+form p:last-child {
+  margin-bottom: 0;
+}
+
+form p > label {
+  display: block;
+  margin-bottom: 0.35rem;
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: var(--ink);
+}
+
+input:not([type='checkbox']):not([type='radio']):not([type='hidden']),
+select,
+textarea {
+  width: 100%;
+  padding: 0.72rem 0.92rem;
+  font: inherit;
+  color: var(--ink);
+  background: var(--surface-alt);
+  border: 1.5px solid var(--line);
+  border-radius: var(--radius-sm);
+  transition:
+    border-color 0.22s var(--ease-smooth),
+    box-shadow 0.25s var(--ease),
+    background 0.22s var(--ease-smooth),
+    transform 0.22s var(--ease);
+}
+
+input:not([type='checkbox']):not([type='radio']):hover,
+select:hover,
+textarea:hover {
+  border-color: color-mix(in srgb, var(--brand) 50%, var(--line));
+}
+
+input:not([type='checkbox']):not([type='radio']):focus,
+select:focus,
+textarea:focus {
+  outline: none;
+  background: var(--surface);
+  border-color: var(--brand);
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--brand) 18%, transparent);
+  transform: translateY(-1px);
+}
+
+input[type='checkbox'],
+input[type='radio'] {
+  width: 1.08rem;
+  height: 1.08rem;
+  margin-right: 0.45rem;
+  accent-color: var(--accent);
+  cursor: pointer;
+}
+
+form p div label {
+  font-weight: 400;
+}
+
+.helptext {
+  display: block;
+  margin-top: 0.3rem;
+  font-size: 0.8rem;
+  color: var(--muted);
+}
+
+.errorlist {
+  margin: 0 0 0.45rem;
+  padding: 0.5rem 0.8rem;
+  list-style: none;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--danger);
+  background: color-mix(in srgb, var(--danger) 11%, var(--surface));
+  border-left: 4px solid var(--danger);
+  border-radius: 8px;
+}
+
+/* ---------- Detalle ---------- */
+strong {
+  color: var(--ink);
+  font-weight: 700;
+}
+
+/* ---------- Animaciones ---------- */
+body > :not(nav):not(hr) {
+  animation: aparecer 0.48s var(--ease-smooth) both;
+}
+
+@keyframes aparecer {
+  from {
+    opacity: 0;
+    transform: translateY(14px) scale(0.99);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes reboteSuave {
+  from {
+    opacity: 0;
+    transform: translateY(-8px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes franja {
+  to {
+    background-position: -200% 0;
+  }
+}
+
+@keyframes deriva {
+  0% {
+    border-radius: 44% 56% 37% 63% / 58% 36% 64% 42%;
+    transform: translate(0, 0) rotate(0deg) scale(1);
+  }
+  50% {
+    border-radius: 61% 39% 58% 42% / 38% 60% 40% 62%;
+    transform: translate(24px, -28px) rotate(16deg) scale(1.07);
+  }
+  100% {
+    border-radius: 37% 63% 46% 54% / 53% 42% 58% 47%;
+    transform: translate(-12px, 22px) rotate(-12deg) scale(0.96);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
+/* ---------- Móvil ---------- */
+@media (max-width: 640px) {
+  body {
+    padding: 0 1rem 4rem;
+  }
+  nav {
+    border-radius: var(--radius);
+    gap: 0.25rem 0.5rem;
+  }
+  nav form {
+    margin-left: 0;
+  }
+  table {
+    display: block;
+    overflow-x: auto;
+  }
+  form:not(nav form) {
+    padding: 1.2rem;
+  }
+}
