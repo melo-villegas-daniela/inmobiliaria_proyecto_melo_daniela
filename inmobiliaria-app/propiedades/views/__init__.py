@@ -7,3 +7,4 @@ from propiedades.views.propiedad_views import (
     propiedad_create, propiedad_update, 
     propiedad_delete,)
 from propiedades.views.visita_views import visita_list, visita_detail
+from propiedades.views.auth_views import registro, login_view, logout_view
