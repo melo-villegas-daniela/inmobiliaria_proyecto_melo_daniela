@@ -1,0 +1,9 @@
+{% extends 'propiedades/base.html' %}
+{% block content %}
+  <h1>Visita de {{ visita.nombre_interesado }}</h1>
+  <p>Propiedad: <a href='{{ visita.propiedad.get_absolute_url }}'>{{ visita.propiedad }}</a></p>
+  <p>Fecha: {{ visita.fecha }}</p>
+  <p>Estado: {{ visita.get_estado_display }}</p>
+  <p>Registrada por: {{ visita.creado_por.username }}</p>
+  <p><a href='{% url 'visita_list' %}'>Volver</a></p>
+{% endblock %}

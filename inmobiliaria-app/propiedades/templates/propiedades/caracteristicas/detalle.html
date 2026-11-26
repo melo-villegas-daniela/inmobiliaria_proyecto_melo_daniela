@@ -1,0 +1,13 @@
+{% extends 'propiedades/base.html' %}
+{% block content %}
+  <h1>{{ caracteristica.nombre }}</h1>
+  <h2>Propiedades con esta característica</h2>
+  <ul>
+    {% for p in propiedades %}
+      <li><a href='{{ p.get_absolute_url }}'>{{ p.titulo }}</a> - ${{ p.precio }}</li>
+    {% empty %}
+      <li>Ninguna propiedad.</li>
+    {% endfor %}
+  </ul>
+  <p><a href='{% url 'caracteristica_list' %}'>Volver</a></p>
+{% endblock %}

@@ -1,0 +1,11 @@
+{% extends 'propiedades/base.html' %}
+{% block content %}
+  <h1>Características</h1>
+  <ul>
+    {% for c in caracteristicas %}
+      <li><a href='{{ c.get_absolute_url }}'>{{ c.nombre }}</a></li>
+    {% empty %}
+      <li>No hay características registradas.</li>
+    {% endfor %}
+  </ul>
+{% endblock %}

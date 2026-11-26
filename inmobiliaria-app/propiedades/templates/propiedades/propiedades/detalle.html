@@ -1,0 +1,35 @@
+{% extends 'propiedades/base.html' %}
+{% block content %}
+  <h1>{{ propiedad.titulo }}</h1>
+  <p>{{ propiedad.get_tipo_display }} en {{ propiedad.get_operacion_display }} - ${{ propiedad.precio }}</p>
+  <p>Zona: <a href='{{ propiedad.zona.get_absolute_url }}'>{{ propiedad.zona }}</a></p>
+  <p>Estado: {{ propiedad.get_estado_display }} | Publicada: {{ propiedad.fecha_publicacion }}</p>
+  <p>Creada por: {{ propiedad.creado_por.username }}</p>
+  <p>{{ propiedad.descripcion }}</p>
+
+  <h2>Características</h2>
+  <ul>
+    {% for c in propiedad.caracteristicas.all %}
+      <li><a href='{{ c.get_absolute_url }}'>{{ c.nombre }}</a></li>
+    {% empty %}
+      <li>Sin características.</li>
+    {% endfor %}
+  </ul>
+
+  <h2>Visitas</h2>
+  <ul>
+    {% for v in propiedad.visitas.all %}
+      <li><a href='{{ v.get_absolute_url }}'>{{ v.nombre_interesado }}</a> - {{ v.fecha }} ({{ v.get_estado_display }})</li>
+    {% empty %}
+      <li>Sin visitas.</li>
+    {% endfor %}
+  </ul>
+
+  {% if perms.propiedades.change_propiedad and puede_modificar %}
+    <a href='{% url 'propiedad_update' propiedad.pk %}'>Editar</a>
+  {% endif %}
+  {% if perms.propiedades.delete_propiedad and puede_modificar %}
+    <a href='{% url 'propiedad_delete' propiedad.pk %}'>Eliminar</a>
+  {% endif %}
+  <p><a href='{% url 'propiedad_list' %}'>Volver</a></p>
+{% endblock %}

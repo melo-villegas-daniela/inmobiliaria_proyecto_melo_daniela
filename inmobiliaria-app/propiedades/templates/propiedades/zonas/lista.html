@@ -1,0 +1,14 @@
+{% extends 'propiedades/base.html' %}
+{% block content %}
+  <h1>Zonas</h1>
+  {% if perms.propiedades.add_zona %}
+    <p><a href='{% url 'zona_create' %}'>Nueva zona</a></p>
+  {% endif %}
+  <ul>
+    {% for zona in zonas %}
+      <li><a href='{{ zona.get_absolute_url }}'>{{ zona }}</a></li>
+    {% empty %}
+      <li>No hay zonas registradas.</li>
+    {% endfor %}
+  </ul>
+{% endblock %}

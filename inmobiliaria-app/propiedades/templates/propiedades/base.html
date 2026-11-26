@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang='es'>
+<head>
+  <meta charset='utf-8'>
+  <title>{% block title %}Inmobiliaria{% endblock %}</title>
+</head>
+<body>
+  <nav>
+    <a href='{% url 'propiedad_list' %}'>Propiedades</a> |
+    <a href='{% url 'zona_list' %}'>Zonas</a> |
+    <a href='{% url 'caracteristica_list' %}'>Características</a> |
+    <a href='{% url 'visita_list' %}'>Visitas</a> |
+    {% if user.is_authenticated %}
+      Hola, {{ user.username }}
+      <form method='post' action='{% url 'logout' %}' style='display:inline'>
+        {% csrf_token %}
+        <button type='submit'>Salir</button>
+      </form>
+    {% else %}
+      <a href='{% url 'login' %}'>Entrar</a> |
+      <a href='{% url 'registro' %}'>Registrarse</a>
+    {% endif %}
+  </nav>
+  <hr>
+  {% if messages %}
+    <ul>
+      {% for message in messages %}<li>{{ message }}</li>{% endfor %}
+    </ul>
+  {% endif %}
+  {% block content %}{% endblock %}
+</body>
+</html>

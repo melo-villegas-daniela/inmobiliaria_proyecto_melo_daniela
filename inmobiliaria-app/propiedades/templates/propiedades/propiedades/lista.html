@@ -1,0 +1,21 @@
+{% extends 'propiedades/base.html' %}
+{% block content %}
+  <h1>Propiedades</h1>
+  {% if perms.propiedades.add_propiedad %}
+    <p><a href='{% url 'propiedad_create' %}'>Nueva propiedad</a></p>
+  {% endif %}
+  <table border='1' cellpadding='4'>
+    <tr><th>Título</th><th>Tipo</th><th>Operación</th><th>Precio</th><th>Zona</th></tr>
+    {% for p in propiedades %}
+      <tr>
+        <td><a href='{{ p.get_absolute_url }}'>{{ p.titulo }}</a></td>
+        <td>{{ p.get_tipo_display }}</td>
+        <td>{{ p.get_operacion_display }}</td>
+        <td>${{ p.precio }}</td>
+        <td><a href='{{ p.zona.get_absolute_url }}'>{{ p.zona }}</a></td>
+      </tr>
+    {% empty %}
+      <tr><td colspan='5'>No hay propiedades.</td></tr>
+    {% endfor %}
+  </table>
+{% endblock %}
