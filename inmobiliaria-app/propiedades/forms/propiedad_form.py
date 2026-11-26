@@ -1,7 +1,5 @@
 from django import forms
-
 from propiedades.models import Propiedad
-
 
 class PropiedadForm(forms.ModelForm):
     class Meta:

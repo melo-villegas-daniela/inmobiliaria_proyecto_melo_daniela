@@ -1,7 +1,5 @@
 from django import forms
-
 from propiedades.models import Visita
-
 
 class VisitaForm(forms.ModelForm):
     class Meta:
